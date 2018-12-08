@@ -1,0 +1,5 @@
+"use strict";
+/*** This file contains the code associated with the RSA encryption and digital
+ signing used to encrypt, decrypt and sign messages and user information sent
+ by users. Cryptico library is used to finish the task. */ 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicnNhX2NyeXB0by5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy90cy9yc2FfY3J5cHRvLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFBQTs7MERBRTBEIiwic291cmNlc0NvbnRlbnQiOlsiLyoqKiBUaGlzIGZpbGUgY29udGFpbnMgdGhlIGNvZGUgYXNzb2NpYXRlZCB3aXRoIHRoZSBSU0EgZW5jcnlwdGlvbiBhbmQgZGlnaXRhbFxuIHNpZ25pbmcgdXNlZCB0byBlbmNyeXB0LCBkZWNyeXB0IGFuZCBzaWduIG1lc3NhZ2VzIGFuZCB1c2VyIGluZm9ybWF0aW9uIHNlbnRcbiBieSB1c2Vycy4gQ3J5cHRpY28gbGlicmFyeSBpcyB1c2VkIHRvIGZpbmlzaCB0aGUgdGFzay4gKi8iXX0=

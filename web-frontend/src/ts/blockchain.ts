@@ -1,0 +1,1 @@
+/*** This file contains code to interact with blockchain using web3 */
