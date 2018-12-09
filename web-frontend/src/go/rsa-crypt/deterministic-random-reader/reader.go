@@ -15,6 +15,7 @@ type Reader struct {
 	passphrase []byte
 	address []byte
 	generated int
+	seed []byte
 }
 
 func NewReader(pass, addr string) (*Reader){
@@ -22,6 +23,7 @@ func NewReader(pass, addr string) (*Reader){
 		[]byte(pass),
 		[]byte(addr),
 		0,
+		[]byte{},
 	}
 }
 
@@ -36,20 +38,28 @@ func (r *Reader) Read(b []byte) (n int, err error) {
 	return len(b), nil
 }
 
-func getBytesHash(str []byte) uint64 {
+func getBytesHash64(str []byte) uint64 {
 	h := fnv.New64a()
 	h.Write([]byte(str))
 	return h.Sum64()
 }
 
+func getBytesHash32(str []byte) uint32 {
+	h := fnv.New32a()
+	h.Write([]byte(str))
+	return h.Sum32()
+}
+
 func (r *Reader) ReadOneByte() (byte, error) {
-	if r.generated == 0 {
-		length := strconv.Itoa(len(r.address)+len(r.passphrase))
-		seed := make([]byte, len(r.address) + len(r.passphrase) + len(length))
-		copy(seed[:len(r.address)], r.address)
-		copy(seed[len(r.address):len(r.address)+len(r.passphrase)], r.passphrase)
-		copy(seed[len(r.address)+len(r.passphrase):], []byte(length))
-		hash := getBytesHash(seed)
+	if r.generated % 64 == 0 {
+		length := strconv.Itoa(len(r.address)+len(r.passphrase)+len(r.seed))
+		hashStr := strconv.Itoa(int(getBytesHash32(r.seed)))
+		r.seed = make([]byte, len(r.address) + len(r.passphrase) + len(length) + len(hashStr))
+		copy(r.seed[:len(r.address)], r.address)
+		copy(r.seed[len(r.address):len(r.address)+len(r.passphrase)], r.passphrase)
+		copy(r.seed[len(r.address)+len(r.passphrase):len(r.address)+len(r.passphrase)+len(length)], []byte(length))
+		copy(r.seed[len(r.address)+len(r.passphrase)+len(length):], []byte(hashStr))
+		hash := getBytesHash64(r.seed)
 		rand.Seed(int64(hash))
 	}
 	r.generated += 1

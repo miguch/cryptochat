@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sh install.sh",
+    "serve": "npm install && sh install.sh && http-server ./dist"
   },
   "author": "Miguel Chan",
   "license": "MIT",
-  "dependencies": {
-    "cryptico-js": "^1.1.0"
-  }
+  "dependencies": {}
 }

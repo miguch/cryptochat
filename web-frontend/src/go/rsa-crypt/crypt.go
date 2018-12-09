@@ -2,7 +2,10 @@ package rsa_crypt
 
 import (
 	drr "./deterministic-random-reader"
+	"crypto"
+	"crypto/rand"
 	"crypto/rsa"
+	"crypto/sha256"
 	"crypto/x509"
 	"encoding/base64"
 	"io"
@@ -34,11 +37,11 @@ func (cc *ChatCrypto) Encrypt(plainText, publicKey []byte) ([]byte, error) {
 	if err != nil {
 		return []byte{}, err
 	}
-	return rsa.EncryptPKCS1v15(cc.randReader, pubKey, plainText)
+	return rsa.EncryptPKCS1v15(rand.Reader, pubKey, plainText)
 }
 
 func (cc *ChatCrypto) Decrypt(cipherText []byte) ([]byte, error) {
-	return cc.RsaPrivateKey.Decrypt(cc.randReader, cipherText, nil)
+	return cc.RsaPrivateKey.Decrypt(rand.Reader, cipherText, nil)
 }
 
 func (cc *ChatCrypto) GetPublicKey() []byte {
@@ -64,3 +67,36 @@ func (cc *ChatCrypto) DecryptString(cipherText string) (string, error) {
 	return string(res), err
 }
 
+func (cc *ChatCrypto) SignMessage(message []byte) ([]byte, error) {
+	hashed := sha256.Sum256(message)
+	return rsa.SignPKCS1v15(rand.Reader, cc.RsaPrivateKey, crypto.SHA256, hashed[:])
+}
+
+func (cc *ChatCrypto) SignMessageString(message string) (string, error) {
+	data, err := cc.SignMessage([]byte(message))
+	if err != nil {
+		return "", err
+	}
+	return base64.StdEncoding.EncodeToString(data), nil
+}
+
+func (cc *ChatCrypto) VerifySigning(message, signature, publicKey []byte) error {
+	pubKey, err := x509.ParsePKCS1PublicKey(publicKey)
+	if err != nil {
+		return err
+	}
+	hashed := sha256.Sum256(message)
+	return rsa.VerifyPKCS1v15(pubKey, crypto.SHA256, hashed[:], signature)
+}
+
+func (cc *ChatCrypto) VerifySigningString(message, signature, publicKey string) error {
+	sigData, err := base64.StdEncoding.DecodeString(signature)
+	if err != nil {
+		return err
+	}
+	key, err := base64.StdEncoding.DecodeString(publicKey)
+	if err != nil {
+		return err
+	}
+	return cc.VerifySigning([]byte(message), sigData, key)
+}

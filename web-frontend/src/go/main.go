@@ -7,33 +7,62 @@ import (
 	"github.com/gopherjs/gopherjs/js"
 )
 
+type JsRsaCrypt struct {
+	crypt *rsaCrypt.ChatCrypto
+}
+
+func (c *JsRsaCrypt) GetPublicKey() string {
+	return base64.StdEncoding.EncodeToString(c.crypt.GetPublicKey())
+}
+
+func (c *JsRsaCrypt) EncryptWithPubKey(publicKey string, plainText string) (text string, status bool) {
+	res, err := c.crypt.EncryptString(plainText, publicKey)
+	if err != nil {
+		fmt.Println(err)
+		return "", false
+	}
+	return res, true
+}
+
+func (c *JsRsaCrypt) Decrypt(cipherText string) (text string, status bool) {
+	res, err := c.crypt.DecryptString(cipherText)
+	if err != nil {
+		fmt.Println(err)
+		return "", false
+	}
+	return res, true
+}
+
+func (c *JsRsaCrypt) Sign(message string) (string, bool) {
+	sig, err := c.crypt.SignMessageString(message)
+	if err != nil {
+		fmt.Println(err)
+		return "", false
+	}
+	return sig, true
+}
+
+func (c *JsRsaCrypt) Verify(message, signature, publicKey string) bool {
+	err := c.crypt.VerifySigningString(message, signature, publicKey)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	return true
+}
+
+
 func main() {
+	//Contaminate the JavaScript global scope
 	js.Global.Set("RsaCrypt", map[string]interface{}{
-		"New": func (addr, pass string) *js.Object {
+		"New": func(addr, pass string) *js.Object {
 			crypt, err := rsaCrypt.NewChatCrypto(addr, pass)
 			if err != nil {
 				fmt.Println(err)
 			}
-			return js.MakeWrapper(crypt)
-		},
-		"GetPublicKey": func (crypt *rsaCrypt.ChatCrypto) string {
-			return base64.StdEncoding.EncodeToString(crypt.GetPublicKey())
-		},
-		"EncryptWithPubKey": func (crypt *rsaCrypt.ChatCrypto, publicKey string, plainText string) (text string, status bool) {
-			res, err := crypt.EncryptString(plainText, publicKey)
-			if err != nil {
-				fmt.Println(err)
-				return "", false
-			}
-			return res, true
-		},
-		"Decrypt": func (crypt *rsaCrypt.ChatCrypto, cipherText string) (text string, status bool) {
-			res, err := crypt.DecryptString(cipherText)
-			if err != nil {
-				fmt.Println(err)
-				return "", false
-			}
-			return res, true
+			return js.MakeWrapper(&JsRsaCrypt{
+				crypt: crypt,
+			})
 		},
 	})
 }

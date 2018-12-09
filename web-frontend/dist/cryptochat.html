@@ -6,13 +6,7 @@
 </head>
 <body>
 
-    {{/*<script src="gopherjs/rsaCrypt.js"></script>*/}}
-    <script src="wasm/wasm_exec.js"></script>
-    <script>
-        const go = new Go();
-        WebAssembly.instantiateStreaming(fetch("wasm/rsaCrypt.wasm"), go.importObject).then((result) => {
-            go.run(result.instance);
-        });
-    </script>
+    <script src="gopherjs/rsaCrypt.js"></script>
+
 </body>
 </html>

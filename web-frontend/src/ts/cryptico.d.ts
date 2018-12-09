@@ -1,3 +1,5 @@
+//Deprecated after switching to Go for encryption
+
 //Declare file of only the RSA part of the cryptico library
 
 declare class RSAKey {
@@ -11,15 +13,15 @@ declare class RSAKey {
     coeff: any;
 }
 
-declare class cryptico {
-    generateRSAKey(passphrase: string, bitLength: number): RSAKey;
-    publicKeyString(rsakey: string): string;
-    publicKeyID(publicKeyString: string): string;
-    encrypt(plaintext: string, publicKeyString: string, signingKey: RSAKey): {
+declare namespace cryptico {
+    function generateRSAKey(passphrase: string, bitLength: number): RSAKey;
+    function publicKeyString(rsakey: string): string;
+    function publicKeyID(publicKeyString: string): string;
+    function encrypt(plaintext: string, publicKeyString: string, signingKey: RSAKey): {
         status: string;
         cipher: string|undefined;
     };
-    decrypt(ciphertext: string, key: RSAKey): {
+    function decrypt(ciphertext: string, key: RSAKey): {
         status: string;
         plaintext: string|undefined;
         signature: string|undefined;
