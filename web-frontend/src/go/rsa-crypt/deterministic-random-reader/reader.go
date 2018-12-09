@@ -3,7 +3,7 @@ package deterministic_random_reader
 import (
 	"hash/fnv"
 	"math/rand"
-
+	"strconv"
 )
 
 //This Package Contains a deterministic random reader
@@ -42,20 +42,17 @@ func getBytesHash(str []byte) uint64 {
 	return h.Sum64()
 }
 
-func rotateBytes(b []byte) []byte {
-	res := make([]byte, len(b))
-	copy(res[1:len(b)], b[:len(b)-1])
-	res[0] = b[len(b)-1]
-	return res
-}
-
 func (r *Reader) ReadOneByte() (byte, error) {
-	if r.generated % 5 == 0 {
-		seed := rotateBytes(r.passphrase)
-		seed = append(seed, rotateBytes(r.address)...)
+	if r.generated == 0 {
+		length := strconv.Itoa(len(r.address)+len(r.passphrase))
+		seed := make([]byte, len(r.address) + len(r.passphrase) + len(length))
+		copy(seed[:len(r.address)], r.address)
+		copy(seed[len(r.address):len(r.address)+len(r.passphrase)], r.passphrase)
+		copy(seed[len(r.address)+len(r.passphrase):], []byte(length))
 		hash := getBytesHash(seed)
 		rand.Seed(int64(hash))
 	}
+	r.generated += 1
 	b := make([]byte, 1)
 	_, err := rand.Read(b)
 	if err != nil {
