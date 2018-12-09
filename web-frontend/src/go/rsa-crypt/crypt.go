@@ -1,8 +1,8 @@
 package rsa_crypt
 
 import (
-	drr "./deterministic-random-reader"
 	"crypto/rsa"
+	drr "github.com/miguch/cryptochat/web-frontend/src/go/rsa-crypt/deterministic-random-reader"
 	"io"
 )
 
