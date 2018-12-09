@@ -39242,7 +39242,7 @@ $packages["./rsa-crypt"] = (function() {
 		var _r, _tuple, address, err, key, passphrase, randReader, $s, $r;
 		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; _r = $f._r; _tuple = $f._tuple; address = $f.address; err = $f.err; key = $f.key; passphrase = $f.passphrase; randReader = $f.randReader; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		randReader = deterministic_random_reader.NewReader(passphrase, address);
-		_r = rsa.GenerateKey(randReader, 2048); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		_r = rsa.GenerateKey(randReader, 1024); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_tuple = _r;
 		key = _tuple[0];
 		err = _tuple[1];
