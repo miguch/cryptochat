@@ -1,4 +1,4 @@
-let contractABI = [
+let contractInfo = [
     {
         "constant": true,
         "inputs": [],
@@ -280,4 +280,9 @@ let contractABI = [
     }
 ];
 
-export = contractABI;
+let contractAddr = "0xfd699566d43446d901e5542aebe64d9c644a6e2e";
+
+export = {
+    abi: contractInfo,
+    address: contractAddr
+};

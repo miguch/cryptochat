@@ -2,8 +2,11 @@
 import Eth from 'ethjs'
 
 import Chat from './chat';
+import info from "./contractInfo";
 
-let abi = require("./contractABI");
+let abi = info.abi;
+let contractAddr = info.address;
+
 
 window.web3 = window.web3 || undefined;
 
@@ -22,7 +25,7 @@ window.addEventListener('load', function() {
     }
 
     //Bind contract
-    contract = eth.contract(abi).at("0x9da5c528e466d266e4e6dc9decf1e40cb38c3081");
+    contract = eth.contract(abi).at(contractAddr);
 
     window.web3.currentProvider.enable();
 

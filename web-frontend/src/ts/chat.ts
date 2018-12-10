@@ -13,11 +13,19 @@ class Chat {
         this.selfAddress = address;
     }
 
-    public attemptLogin(pass: string) {
+    public attemptLogin(pass: string, publicKey: string, keySig: string) : boolean {
         let testCrypt = new cryptoUtils(this.selfAddress, pass);
-
+        if (testCrypt.VerifyKey(publicKey, keySig) && testCrypt.GetPublicKey() == publicKey) {
+            this.passphrase = pass;
+            this.crypt = testCrypt;
+            return true;
+        }
+        return false;
     }
 }
 
-export default Chat;
+window.Chat = Chat;
+
+export = Chat;
+
 

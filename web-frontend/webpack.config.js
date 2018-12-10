@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-const { VueLoaderPlugin } = require('vue-loader');
+const {VueLoaderPlugin} = require('vue-loader');
 
 module.exports = {
     entry: './src/ts/view.ts',
@@ -18,15 +18,8 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     'vue-style-loader',
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            // enable CSS Modules
-                            modules: true,
-                            // customize generated class names
-                            localIdentName: '[local]_[hash:base64:8]'
-                        }
-                    }
+                    'style-loader',
+                    'css-loader'
                 ]
             },
             {

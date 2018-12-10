@@ -2,6 +2,8 @@ declare interface Window {
     web3: any;
     cryptoUtils: any;
     eth: any;
+    contract: any;
+    Chat: any;
 }
 declare var Web3: any;
 

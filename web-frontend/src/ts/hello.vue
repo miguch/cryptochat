@@ -1,39 +1,54 @@
 <template>
     <div>
-        <div class="greeting">Hello {{name}}{{exclamationMarks}}</div>
-        <button @click="decrement">-</button>
-        <button @click="increment">+</button>
+        <b-alert show>Default Alert</b-alert>
+
+        <b-alert variant="success" show>Success Alert</b-alert>
+
+        <b-alert variant="danger"
+                 dismissible
+                 :show="showDismissibleAlert"
+                 @dismissed="showDismissibleAlert=false">
+            Dismissible Alert!
+        </b-alert>
+
+        <b-alert :show="dismissCountDown"
+                 dismissible
+                 variant="warning"
+                 @dismissed="dismissCountDown=0"
+                 @dismiss-count-down="countDownChanged">
+            <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
+            <b-progress variant="warning"
+                        :max="dismissSecs"
+                        :value="dismissCountDown"
+                        height="4px">
+            </b-progress>
+        </b-alert>
+
+        <b-btn @click="showAlert" variant="info" class="m-1">
+            Show alert with count-down timer
+        </b-btn>
+        <b-btn @click="showDismissibleAlert=true" variant="info" class="m-1">
+            Show dismissible alert ({{showDismissibleAlert?'visible':'hidden'}})
+        </b-btn>
     </div>
 </template>
 
-<script lang="ts">
-    import Vue from "vue";
-
-    export default Vue.extend({
-        props: ['name', 'initialEnthusiasm'],
-        data() {
+<script>
+    export default {
+        data () {
             return {
-                enthusiasm: this.initialEnthusiasm,
+                dismissSecs: 10,
+                dismissCountDown: 0,
+                showDismissibleAlert: false
             }
         },
         methods: {
-            increment() { this.enthusiasm++; },
-            decrement() {
-                if (this.enthusiasm > 1) {
-                    this.enthusiasm--;
-                }
+            countDownChanged (dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
             },
-        },
-        computed: {
-            exclamationMarks(): string {
-                return Array(this.enthusiasm + 1).join('!');
+            showAlert () {
+                this.dismissCountDown = this.dismissSecs
             }
         }
-    });
-</script>
-
-<style>
-    .greeting {
-        font-size: 20px;
     }
-</style>
+</script>
