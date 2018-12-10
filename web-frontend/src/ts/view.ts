@@ -4,7 +4,7 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-import HelloComponent from './hello.vue';
+import HelloComponent from './components/hello.vue';
 import cryptoUtils from "./rsa_crypto";
 
 import blockchain = require("./blockchain");
@@ -21,14 +21,17 @@ let chatV = new Vue({
     el: "#chat-area",
     template: `
     <div>
-        <hello-component :name="name" :initialEnthusiasm="5" />
+        <hello-component v-if="dis" :initialEnthusiasm="5" />
+        <p> {{dis}} </p>
     </div>
     `,
-    data: { name: cr.GetPublicKey() },
+    data: { dis: true },
     components: {
         HelloComponent
     }
 });
+
+window.chatV = chatV;
 
 
 
