@@ -1,4 +1,0 @@
-"use strict";
-/** This file includes the code associated with controlling of the
- CryptoChat web interface */ 
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY2hhdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy90cy9jaGF0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFBQTs0QkFDNEIiLCJzb3VyY2VzQ29udGVudCI6WyIvKiogVGhpcyBmaWxlIGluY2x1ZGVzIHRoZSBjb2RlIGFzc29jaWF0ZWQgd2l0aCBjb250cm9sbGluZyBvZiB0aGVcbiBDcnlwdG9DaGF0IHdlYiBpbnRlcmZhY2UgKi8iXX0=
