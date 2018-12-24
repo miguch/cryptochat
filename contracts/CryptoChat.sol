@@ -103,8 +103,11 @@ contract CryptoChat {
         name_addr[name] = msg.sender;
     }
 
-    function getAddrFromName(string username) public view returns (address) {
-        return name_addr[username];
+    function getAddrFromName(string username) public view returns (address target, bool status) {
+        if (name_addr[username] == 0x0) {
+            return (0x0, false);
+        }
+        return (name_addr[username], true);
     }
     
     function sendEther(address target) public payable {
