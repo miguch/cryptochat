@@ -4,7 +4,7 @@
 
 [Web 前端仓库](https://github.com/miguch/cryptochat-web)
 
-[CryptoChat (支持 Ropsten 测试网络)](https://cryptochat.miguch.com)
+[CryptoChat (支持 Ropsten / Rinkeby测试网络)](https://cryptochat.miguch.com)
 
 ## CryptoChat 简介
 
